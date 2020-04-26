@@ -16,7 +16,7 @@ def add_message():
 
 #GET
 @app.route("/GetMessage", methods=['GET'])
-def get_message_application():
+def get_message():
     applicationId=request.args.get('applicationId', default = None ,type = int)
     sessionId=request.args.get('sessionId', default = None , type = str)
     messageId = request.args.get('messageId', default=None, type=str)
@@ -25,8 +25,20 @@ def get_message_application():
         return jsonify(list_messages[0])
     return jsonify(list_messages)
 
-
-
+#Delete
+@app.route("/DeleteMessage", methods=['DELETE'])
+def delete_message():
+    applicationId=request.args.get('applicationId', default = None ,type = int)
+    sessionId=request.args.get('sessionId', default = None , type = str)
+    messageId = request.args.get('messageId', default=None, type=str)
+    count=Message.listMessage.__len__()
+    if applicationId != None:
+        Message.listMessage = [element for element in Message.listMessage if element["application_id"] != applicationId]
+    if sessionId != None:
+        Message.listMessage = [element for element in Message.listMessage if element["session_id"] != sessionId]
+    if messageId != None:
+        Message.listMessage = [element for element in Message.listMessage if element["message_id"] != messageId]
+    return "{} messages deleted".format(count-Message.listMessage.__len__())
 
 
 if __name__ == "__main__":
