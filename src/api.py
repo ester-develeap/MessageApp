@@ -5,12 +5,23 @@ from src.message import Message
 
 app = Flask(__name__)
 
+
+
 #POST
 @app.route("/AddMessage", methods=['POST'])
 def add_message():
     new_message = request.get_json()
     Message.listMessage.append(new_message)
-    return Message.listMessage[0]
+    return new_message
+
+#GET
+@app.route("/GetMessage", methods=['GET'])
+def get_message_application():
+    applicationId=request.args.get('applicationId',type = int)
+    list_messages = [element for element in Message.listMessage if element["application_id"]==applicationId]
+    return jsonify(list_messages)
+
+
 
 
 
