@@ -6,10 +6,15 @@ from src.messages_list import MessageList
 
 app = Flask(__name__)
 
+#Health
+@app.route("/")
+def helth():
+    return "hello"
+
 #POST
 @app.route("/AddMessage", methods=['POST'])
 def add_message():
-    new_message = request.get_json()
+    new_message = request.get_json(force=True)
     try:
         MessageList.add_new_message(new_message)
     except:
