@@ -4,10 +4,10 @@ from src.api import app
 def test_post_succes():
     client = app.test_client()
     url = '/AddMessage'
-    data = {'application_id': 5,
-            'session_id': "www",
+    data = {'application_id': 15,
             'message_id': "sss",
             'participants': ["avi", "moshe"],
+            'session_id': "www",
             'content': "hello world"}
     response = client.post(url, data=json.dumps(data))
     assert response.get_data() == b'the message was added succesfully'
@@ -65,3 +65,147 @@ def test_post_no_applicationId():
     assert response.get_data() == b'data not correct'
     assert response.status_code == 400
 
+#sessionId
+def test_post_sessionId_not_number():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id': 5,
+            'session_id': 12,
+            'message_id': "sss",
+            'participants': ["avi", "moshe"],
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'session_id must be string'
+    assert response.status_code == 400
+
+def test_post_sessionId_empty():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id':3,
+            'session_id': "",
+            'message_id': "sss",
+            'participants': ["avi", "moshe"],
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'session_id cannot be empty'
+    assert response.status_code == 400
+
+def test_post_no_sessionId():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id':3,
+            'ssssiss_id': "www",
+            'message_id': "sss",
+            'participants': ["avi", "moshe"],
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'data not correct'
+    assert response.status_code == 400
+
+#messageId
+def test_post_messageId_not_number():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id': 5,
+            'session_id': "ddd",
+            'message_id': 12,
+            'participants': ["avi", "moshe"],
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'message_id must be string'
+    assert response.status_code == 400
+
+def test_post_messageId_empty():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id': 3,
+            'session_id': "sss",
+            'message_id': "",
+            'participants': ["avi", "moshe"],
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'message_id cannot be empty'
+    assert response.status_code == 400
+
+def test_post_no_messageId():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id':3,
+            'sessionId': "www",
+            'participants': ["avi", "moshe"],
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'data not correct'
+    assert response.status_code == 400
+
+#participants
+def test_post_participants_not_list():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id': 5,
+            'session_id': "ddd",
+            'message_id': "ff",
+            'participants': "avi,moshe",
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'participants must be list'
+    assert response.status_code == 400
+
+def test_post_participants_empty():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id':3,
+            'session_id': "sss",
+            'message_id': "rrr",
+            'participants': [],
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'participants cannot be empty'
+    assert response.status_code == 400
+
+def test_post_no_participants():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id':3,
+            'message_id': "rrr",
+            'sessionId': "www",
+            'par': ["avi", "moshe"],
+            'content': "hello world"}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'data not correct'
+    assert response.status_code == 400
+
+#content
+def test_post_content_not_number():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id': 5,
+            'session_id': "ddd",
+            'message_id': "12",
+            'participants': ["avi", "moshe"],
+            'content': [12]}
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'content must be string'
+    assert response.status_code == 400
+
+def test_post_no_content():
+    client = app.test_client()
+    url = '/AddMessage'
+    data = {'application_id':3,
+            'sessionId': "www",
+            'participants': ["avi", "moshe"],
+            }
+    x = client.post(url, data=json.dumps(data))
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'data not correct'
+    assert response.status_code == 400

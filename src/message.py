@@ -56,8 +56,7 @@ class Message:
 
     @content.setter
     def content(self, content):
-        if not content: raise Exception("content cannot be empty")
-        if not isinstance(content, str): raise Exception("participants must be string")
+        if not isinstance(content, str): raise Exception("content must be string")
         self.__content = content
 
     def dump(self):
