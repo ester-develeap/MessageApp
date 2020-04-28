@@ -4,11 +4,11 @@ class Message:
     #listMessage = []
 
     def __init__(self, application_id,session_id, message_id, participants, content):
-      self.__application_id = application_id
-      self.__session_id = session_id
-      self.__message_id = message_id
-      self.__participants = participants
-      self.__content = content
+      self.application_id = application_id
+      self.session_id = session_id
+      self.message_id = message_id
+      self.participants = participants
+      self.content = content
 
     @property
     def application_id(self):

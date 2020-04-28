@@ -13,7 +13,7 @@ def add_message():
     try:
         MessageList.add_new_message(new_message)
     except:
-        return str(sys.exc_info()[1])
+        return str(sys.exc_info()[1]),400
     return "the message was added succesfully"
 
 #GET
