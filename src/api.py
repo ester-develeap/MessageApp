@@ -1,7 +1,7 @@
 import json
 import sys
 
-from flask import Flask,jsonify,request
+from flask import Flask,request
 from src.messages_list import MessageList
 
 app = Flask(__name__)
@@ -43,8 +43,3 @@ def delete_message():
     count=MessageList.get_messages().__len__()
     MessageList.delete_messages(applicationId,sessionId,messageId)
     return "{} messages deleted".format(count - MessageList.get_messages().__len__())
-
-
-if __name__ == "__main__":
-    app.run()
-
