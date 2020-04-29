@@ -1,22 +1,23 @@
-README
+# README
 
-    Flask message application
-    Simple  application that includes a ADD GET and DELETE requests.
+Flask message application
 
-Setup and run instructions:
+where vou can send, get and delete your messages
 
-Install the requirements into a virtualenv or your environment of choice
+**Setup and run instructions:**
 
-    pip install -r requirements.txt
+1. Install the requirements into a virtualenv or your environment of choice
 
-which includes
-flask,
-pytest
+         pip install -r requirements.txt
 
-then run the pytest command to run all the application's tests
-
+    which includes
+    flask,
     pytest
 
-then run the application by
+2. Run the pytest command to run all the application's tests
 
-    python app.py
+        pytest
+
+3. Run the application by
+
+        python app.py
