@@ -1,9 +1,11 @@
 import pytest
-import src.api
+
+from src.api import app
+
 
 @pytest.mark.run(order=3)
 def test_delete_by_application():
-    client = src.api.app.test_client()
+    client = app.test_client()
     url = '/DeleteMessage?applicationId=1'
     response = client.delete(url)
     data=response.get_data().decode()
@@ -18,7 +20,7 @@ def test_delete_by_application():
 
 @pytest.mark.run(order=4)
 def test_delete_by_session():
-    client = src.api.app.test_client()
+    client = app.test_client()
     url = '/DeleteMessage?sessionId=www'
     response = client.delete(url)
     data = response.get_data().decode()
@@ -33,7 +35,7 @@ def test_delete_by_session():
 
 @pytest.mark.run(order=5)
 def test_delete_by_messagen():
-    client = src.api.app.test_client()
+    client = app.test_client()
     url = '/DeleteMessage?messageId=ddd'
     response = client.delete(url)
     data=response.get_data().decode()
