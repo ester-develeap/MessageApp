@@ -5,7 +5,7 @@ def test_post_succes():
     client = app.test_client()
     url = '/AddMessage'
     data = {'application_id': 15,
-            'message_id': "sss",
+            'message_id': "uuui",
             'participants': ["avi", "moshe"],
             'session_id': "www",
             'content': "hello world"}

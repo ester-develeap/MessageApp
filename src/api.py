@@ -37,7 +37,7 @@ def get_message():
         r=MessageList.get_messages("messageId", messageId)
         return (r[0] if r else {})
     else:
-        return "arguments not correct"
+        return "arguments not correct",400
 
     #
     # if messageId != None and list_messages.__len__()==1:
@@ -52,9 +52,18 @@ def delete_message():
     applicationId=request.args.get('applicationId', default = None ,type = int)
     sessionId=request.args.get('sessionId', default = None , type = str)
     messageId = request.args.get('messageId', default=None, type=str)
-    count=MessageList.get_messages().__len__()
-    MessageList.delete_messages(applicationId,sessionId,messageId)
-    return "{} messages deleted".format(count - MessageList.get_messages().__len__())
+
+    if applicationId != None:
+        rowcount=MessageList.delete_messages("applicationId",applicationId)
+        return "{} messages deleted".format(rowcount)
+    elif sessionId != None:
+        rowcount= MessageList.delete_messages("sessionId", sessionId)
+        return "{} messages deleted".format(rowcount)
+    elif messageId != None:
+        rowcount=MessageList.delete_messages("messageId", messageId)
+        return "{} messages deleted".format(rowcount)
+    else:
+        return "arguments not correct",400
 
 
 # @app.teardown_appcontext

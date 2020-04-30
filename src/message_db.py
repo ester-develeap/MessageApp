@@ -96,6 +96,20 @@ class message_db:
         cur = conn.cursor()
         cur.execute(sql, (value,))
         conn.commit()
+        return cur.rowcount
+
+    @staticmethod
+    def delete_all(conn):
+        """
+        Delete a task by task id
+        :param conn:  Connection to the SQLite database
+        :param id: id of the task
+        :return:
+        """
+        sql = 'DELETE FROM message'
+        cur = conn.cursor()
+        conn.commit()
+        return cur.rowcount
 
     @staticmethod
     def select_all_messages(conn):

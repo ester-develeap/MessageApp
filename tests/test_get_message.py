@@ -24,17 +24,16 @@ def test_get_by_application():
     response = client.get(url)
     data=response.get_data()
     data = json.loads(data.decode())
-    assert data.__len__() == 2
+    assert data.__len__() == 5
     assert response.status_code == 200
 
     url = '/GetMessage?applicationId="sss"'
     response = client.get(url)
     data=response.get_data()
-    data = json.loads(data.decode())
-    assert data.__len__() == 0
-    assert response.status_code == 200
+    assert data == b'arguments not correct'
+    assert response.status_code == 400
 
-    url = '/GetMessage?applicationId=15'
+    url = '/GetMessage?applicationId=17'
     response = client.get(url)
     data=response.get_data()
     data = json.loads(data.decode())
@@ -98,5 +97,5 @@ def test_get_by_messagen():
     response = client.get(url)
     data = response.get_data()
     data = json.loads(data.decode())
-    assert data == []
+    assert data == {}
     assert response.status_code == 200

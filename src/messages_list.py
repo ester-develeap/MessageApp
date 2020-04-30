@@ -26,12 +26,6 @@ class MessageList:
                 raise Exception("message_id is alredy exist")
 
     @staticmethod
-    def get_messages():
-        conn = message_db.create_connection(DATABASE)
-        with conn:
-            message_db.select_all_messages(conn)
-
-    @staticmethod
     def get_messages(id,value):
         conn = message_db.create_connection(DATABASE)
         with conn:
@@ -39,17 +33,11 @@ class MessageList:
         if res:
             for item in res:
                 item["participants"]=list(item["participants"].split(','))
-
         return res
 
-
-
     @staticmethod
-    def delete_messages(applicationId,sessionId,messageId):
-        if applicationId != None:
-            MessageList.__listMessage = [element for element in MessageList.__listMessage if element.application_id != applicationId]
-        if sessionId != None:
-            MessageList.__listMessage = [element for element in MessageList.__listMessage if element.session_id != sessionId]
-        if messageId != None:
-            MessageList.__listMessage = [element for element in MessageList.__listMessage if element.message_id != messageId]
-
+    def delete_messages(id,value):
+        conn = message_db.create_connection(DATABASE)
+        with conn:
+            res = message_db.delete_message(conn, id, value=value)
+        return  res

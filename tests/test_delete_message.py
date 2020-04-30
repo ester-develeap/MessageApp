@@ -20,7 +20,7 @@ def test_delete_by_application():
             'content': "wow"}
     response = client.post(url, data=json.dumps(data))
 
-    url = '/DeleteMessage?applicationId=1'
+    url = '/DeleteMessage?applicationId=5'
     response = client.delete(url)
     data=response.get_data().decode()
     assert data == "2 messages deleted"
