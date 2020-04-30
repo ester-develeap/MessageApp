@@ -27,7 +27,22 @@ class MessageList:
 
     @staticmethod
     def get_messages():
-        return MessageList.__listMessage
+        conn = message_db.create_connection(DATABASE)
+        with conn:
+            message_db.select_all_messages(conn)
+
+    @staticmethod
+    def get_messages(id,value):
+        conn = message_db.create_connection(DATABASE)
+        with conn:
+            res=message_db.select_specific_messages(conn,id,value=value)
+        if res:
+            for item in res:
+                item["participants"]=list(item["participants"].split(','))
+
+        return res
+
+
 
     @staticmethod
     def delete_messages(applicationId,sessionId,messageId):

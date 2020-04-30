@@ -85,11 +85,11 @@ class message_db:
         :param id: id of the task
         :return:
         """
-        if id == 'application_id':
+        if id == 'applicationId':
             sql = 'DELETE FROM message WHERE application_id=?'
-        elif id == 'session_id':
+        elif id == 'sessionId':
             sql = 'DELETE FROM message WHERE session_id=?'
-        elif id == 'message_id':
+        elif id == 'messageId':
             sql = 'DELETE FROM message WHERE message_id=?'
         else:
             return
@@ -119,16 +119,16 @@ class message_db:
         :param conn: the Connection object
         :return:
         """
-        if id == 'application_id':
+        if id == 'applicationId':
             sql = 'SELECT * FROM message WHERE application_id=?'
-        elif id == 'session_id':
+        elif id == 'sessionId':
             sql = 'SELECT * FROM message WHERE session_id=?'
-        elif id == 'message_id':
+        elif id == 'messageId':
             sql = 'SELECT * FROM message WHERE message_id=?'
         else:
             return
         cur = conn.cursor()
         cur.execute(sql, (value,))
-        rows = cur.fetchall()
-        for row in rows:
-            print(row)
+        r = [dict((cur.description[i][0], value) \
+                  for i, value in enumerate(row)) for row in cur.fetchall()]
+        return (r if r else None)

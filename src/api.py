@@ -27,10 +27,22 @@ def get_message():
     applicationId=request.args.get('applicationId', default = None ,type = int)
     sessionId=request.args.get('sessionId', default = None , type = str)
     messageId = request.args.get('messageId', default=None, type=str)
-    list_messages = [element for element in MessageList.get_messages() if element.application_id==applicationId or element.session_id==sessionId or element.message_id==messageId ]
-    if messageId != None and list_messages.__len__()==1:
-        return list_messages[0].dump()
-    return json.dumps([element.dump() for element in list_messages])
+    if applicationId != None:
+        r=json.dumps(MessageList.get_messages("applicationId",applicationId))
+        return (r if r!='null' else "[]")
+    elif sessionId != None:
+        r= json.dumps(MessageList.get_messages("sessionId", sessionId))
+        return (r if r!='null' else "[]")
+    elif messageId != None:
+        r=MessageList.get_messages("messageId", messageId)
+        return (r[0] if r else {})
+    else:
+        return "arguments not correct"
+
+    #
+    # if messageId != None and list_messages.__len__()==1:
+    #     return list_messages[0].dump()
+    # return json.dumps([element.dump() for element in list_messages])
 
 
 
