@@ -3,7 +3,6 @@ from src.message_db import message_db
 from config import *
 
 class MessageList:
-    __listMessage=[]
 
     @staticmethod
     def add_new_message(message):

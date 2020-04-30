@@ -50,8 +50,8 @@ class message_db:
         """
         Create a new project into the projects table
         :param conn:
-        :param project:
-        :return: project id
+        :param message:
+        :return: row_id
         """
         sql = ''' INSERT INTO message(application_id,session_id,message_id,participants,content)
                       VALUES(?,?,?,?,?) '''
@@ -62,10 +62,9 @@ class message_db:
     @staticmethod
     def update_message(conn, message):
         """
-        update priority, begin_date, and end date of a task
+        update application_id,session_id,participence,content by
         :param conn:
-        :param task:
-        :return: project id
+        :param message:
         """
         sql = ''' UPDATE message
                   SET application_id = ? ,
@@ -80,10 +79,10 @@ class message_db:
     @staticmethod
     def delete_message(conn,id,value):
         """
-        Delete a task by task id
+        Delete a message by  id
         :param conn:  Connection to the SQLite database
-        :param id: id of the task
-        :return:
+        :param id: id of application/session/message
+        :return count rows og deleted rows:
         """
         if id == 'applicationId':
             sql = 'DELETE FROM message WHERE application_id=?'
@@ -101,20 +100,20 @@ class message_db:
     @staticmethod
     def delete_all(conn):
         """
-        Delete a task by task id
+        Delete all messages
         :param conn:  Connection to the SQLite database
-        :param id: id of the task
-        :return:
+        :return count rows og deleted rows::
         """
         sql = 'DELETE FROM message'
         cur = conn.cursor()
+        cur.execute(sql)
         conn.commit()
         return cur.rowcount
 
     @staticmethod
     def select_all_messages(conn):
         """
-        Query all rows in the tasks table
+        Query all rows in the message table
         :param conn: the Connection object
         :return:
         """
@@ -129,9 +128,11 @@ class message_db:
     @staticmethod
     def select_specific_messages(conn,id,value):
         """
-        Query all rows in the tasks table
+        Query all rows in the message table by id
         :param conn: the Connection object
-        :return:
+        :param id: which id application/session/message
+        :param value: the value of the id
+        :return dict[] of rows:
         """
         if id == 'applicationId':
             sql = 'SELECT * FROM message WHERE application_id=?'

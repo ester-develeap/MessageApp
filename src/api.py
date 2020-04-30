@@ -6,10 +6,10 @@ from src.messages_list import MessageList
 
 app = Flask(__name__)
 
-#Health
-@app.route("/")
-def helth():
-    return "hello"
+##Health
+#@app.route("/")
+#def helth():
+#    return "hello"
 
 #POST
 @app.route("/AddMessage", methods=['POST'])
@@ -39,13 +39,6 @@ def get_message():
     else:
         return "arguments not correct",400
 
-    #
-    # if messageId != None and list_messages.__len__()==1:
-    #     return list_messages[0].dump()
-    # return json.dumps([element.dump() for element in list_messages])
-
-
-
 #Delete
 @app.route("/DeleteMessage", methods=['DELETE'])
 def delete_message():
@@ -65,7 +58,3 @@ def delete_message():
     else:
         return "arguments not correct",400
 
-
-# @app.teardown_appcontext
-# def close_connection_db():
-#     close_connection()

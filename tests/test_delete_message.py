@@ -1,26 +1,10 @@
-import json
+import pytest
+import src.api
 
-from flask import request
-
-from src.api import app
-
+@pytest.mark.run(order=3)
 def test_delete_by_application():
-    client = app.test_client()
-    url = '/AddMessage'
-    data = {'application_id': 1,
-            'message_id': "aaa",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "like"}
-    response = client.post(url, data=json.dumps(data))
-    data = {'application_id': 1,
-            'message_id': "ddd",
-            'participants': ["avi", "moshe"],
-            'session_id': "xxx",
-            'content': "wow"}
-    response = client.post(url, data=json.dumps(data))
-
-    url = '/DeleteMessage?applicationId=5'
+    client = src.api.app.test_client()
+    url = '/DeleteMessage?applicationId=1'
     response = client.delete(url)
     data=response.get_data().decode()
     assert data == "2 messages deleted"
@@ -32,23 +16,9 @@ def test_delete_by_application():
     assert data == "0 messages deleted"
     assert response.status_code == 200
 
-
+@pytest.mark.run(order=4)
 def test_delete_by_session():
-    client = app.test_client()
-    url = '/AddMessage'
-    data = {'application_id': 1,
-            'message_id': "aaa",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "like"}
-    response = client.post(url, data=json.dumps(data))
-    data = {'application_id': 2,
-            'message_id': "bbb",
-            'participants': ["avi", "moshe"],
-            'session_id': "xxx",
-            'content': "ooops"}
-    response = client.post(url, data=json.dumps(data))
-
+    client = src.api.app.test_client()
     url = '/DeleteMessage?sessionId=www'
     response = client.delete(url)
     data = response.get_data().decode()
@@ -61,23 +31,10 @@ def test_delete_by_session():
     assert data == "0 messages deleted"
     assert response.status_code == 200
 
+@pytest.mark.run(order=5)
 def test_delete_by_messagen():
-    client = app.test_client()
-    url = '/AddMessage'
-    data = {'application_id': 1,
-            'message_id': "aaa",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "like"}
-    response = client.post(url, data=json.dumps(data))
-    data = {'application_id': 2,
-            'message_id': "bbb",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "ooops"}
-    response = client.post(url, data=json.dumps(data))
-
-    url = '/DeleteMessage?messageId=bbb'
+    client = src.api.app.test_client()
+    url = '/DeleteMessage?messageId=ddd'
     response = client.delete(url)
     data=response.get_data().decode()
     assert data == "1 messages deleted"

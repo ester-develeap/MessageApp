@@ -1,30 +1,17 @@
 import json
 
-from flask import request
+import pytest
 
 from src.api import app
 
+@pytest.mark.run(order=2)
 def test_get_by_application():
     client = app.test_client()
-    url = '/AddMessage'
-    data = {'application_id': 1,
-            'message_id': "aaa",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "like"}
-    response = client.post(url, data=json.dumps(data))
-    data = {'application_id': 1,
-            'message_id': "ddd",
-            'participants': ["avi", "moshe"],
-            'session_id': "xxx",
-            'content': "wow"}
-    response = client.post(url, data=json.dumps(data))
-
     url = '/GetMessage?applicationId=1'
     response = client.get(url)
     data=response.get_data()
     data = json.loads(data.decode())
-    assert data.__len__() == 5
+    assert data.__len__() == 2
     assert response.status_code == 200
 
     url = '/GetMessage?applicationId="sss"'
@@ -40,22 +27,11 @@ def test_get_by_application():
     assert data.__len__() == 0
     assert response.status_code == 200
 
+
+
+@pytest.mark.run(order=2)
 def test_get_by_session():
     client = app.test_client()
-    url = '/AddMessage'
-    data = {'application_id': 1,
-            'message_id': "aaa",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "like"}
-    response = client.post(url, data=json.dumps(data))
-    data = {'application_id': 2,
-            'message_id': "bbb",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "ooops"}
-    response = client.post(url, data=json.dumps(data))
-
     url = '/GetMessage?sessionId=www'
     response = client.get(url)
     data=response.get_data()
@@ -70,22 +46,9 @@ def test_get_by_session():
     assert data.__len__() == 0
     assert response.status_code == 200
 
-def test_get_by_messagen():
+@pytest.mark.run(order=2)
+def test_get_by_message():
     client = app.test_client()
-    url = '/AddMessage'
-    data = {'application_id': 1,
-            'message_id': "aaa",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "like"}
-    response = client.post(url, data=json.dumps(data))
-    data = {'application_id': 2,
-            'message_id': "bbb",
-            'participants': ["avi", "moshe"],
-            'session_id': "www",
-            'content': "ooops"}
-    response = client.post(url, data=json.dumps(data))
-
     url = '/GetMessage?messageId=aaa'
     response = client.get(url)
     data = response.get_data()

@@ -1,11 +1,14 @@
 import json
+import pytest
+
 from src.api import app
 
+@pytest.mark.run(order=1)
 def test_post_succes():
     client = app.test_client()
     url = '/AddMessage'
-    data = {'application_id': 15,
-            'message_id': "uuui",
+    data = {'application_id': 3,
+            'message_id': "aaa",
             'participants': ["avi", "moshe"],
             'session_id': "www",
             'content': "hello world"}
@@ -13,12 +16,43 @@ def test_post_succes():
     assert response.get_data() == b'the message was added succesfully'
     assert response.status_code == 200
 
+    url = '/AddMessage'
+    data = {'application_id': 1,
+            'message_id': "bbb",
+            'participants': ["avi", "moshe"],
+            'session_id': "www",
+            'content': "hello world"}
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'the message was added succesfully'
+    assert response.status_code == 200
+
+    url = '/AddMessage'
+    data = {'application_id': 1,
+            'message_id': "ccc",
+            'participants': ["avi", "moshe"],
+            'session_id': "xxx",
+            'content': "hello world"}
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'the message was added succesfully'
+    assert response.status_code == 200
+
+    url = '/AddMessage'
+    data = {'application_id': 2,
+            'message_id': "ddd",
+            'participants': ["avi", "moshe"],
+            'session_id': "zzz",
+            'content': "hello world"}
+    response = client.post(url, data=json.dumps(data))
+    assert response.get_data() == b'the message was added succesfully'
+    assert response.status_code == 200
+
+@pytest.mark.run(order=2)
 def test_post_exist():
     client = app.test_client()
     url = '/AddMessage'
     data = {'application_id': 5,
             'session_id': "www",
-            'message_id': "sss",
+            'message_id': "ddd",
             'participants': ["avi", "moshe"],
             'content': "hello world"}
     x = client.post(url, data=json.dumps(data))
