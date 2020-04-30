@@ -1,5 +1,6 @@
 from src.message import Message
-
+from src.message_db import message_db
+from config import *
 
 class MessageList:
     __listMessage=[]
@@ -16,9 +17,13 @@ class MessageList:
             raise Exception("data not correct")
         new_message=Message(app_id,session_id,message_id,participants,content)
 
-        if any(elem.message_id == new_message.message_id for elem in MessageList.__listMessage):
-            raise Exception("message_id is alredy exist")
-        MessageList.__listMessage.append(new_message)
+        conn=message_db.create_connection(DATABASE)
+        with conn:
+            try:
+                message = (new_message.application_id, new_message.session_id, new_message.message_id,",".join(new_message.participants), new_message.content)
+                message_db.insert_message(conn, message)
+            except:
+                raise Exception("message_id is alredy exist")
 
     @staticmethod
     def get_messages():

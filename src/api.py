@@ -43,3 +43,8 @@ def delete_message():
     count=MessageList.get_messages().__len__()
     MessageList.delete_messages(applicationId,sessionId,messageId)
     return "{} messages deleted".format(count - MessageList.get_messages().__len__())
+
+
+# @app.teardown_appcontext
+# def close_connection_db():
+#     close_connection()
