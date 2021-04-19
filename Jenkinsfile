@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "docker build -t msgApp ."
+                sh "docker build -t msgapp ."
             }
         }
     }
